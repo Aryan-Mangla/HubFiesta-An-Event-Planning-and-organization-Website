@@ -1,0 +1,21 @@
+.theme-txt{
+    color: #7848F4;
+}
+.theme-bg{
+    background-color: #7848F4;
+}
+
+.theme-hover:hover{
+    background-color: #7948f4e7;
+}
+
+.sign-bg-prop{
+    background-position: center;
+    background-size: cover;
+}
+.sign-up-bg{
+    background-image: url('/Pic/Signup/sign-up.png');
+}
+.sign-in-bg{
+    background-image: url('/Pic/Signup/unsplash_EVgsAbL51Rk.png');
+}
