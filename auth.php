@@ -13,11 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
         if (password_verify($password, $user['Password'])) {
-            // $_SESSION['email'] = $user['email'];
-                echo 'User found';
-
-            header('Location: index.php');
+            $_SESSION['email'] = $user['Email'];
+                // echo 'User found';
+                $_SESSION['loggedin'] = true;
+            header('Location: landing_page.php');
             exit();
+        
         } else {
             echo 'Incorrect password';
             // Incorrect password

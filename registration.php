@@ -1,16 +1,5 @@
 <?php
-$servername = 'localhost';
-$username = 'root';
-$password = 'Aaryan@db';
-$dbname = 'piet_event';
-
-$conn = new mysqli( $servername, $username, $password, $dbname);
-if ($conn) {
-    echo'Connected succesfully';
-}
-else {
-    die('Unsuccesful attempt'. mysqli_error($conn));
-}
+require_once 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validate and sanitize inputs
