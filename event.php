@@ -71,8 +71,11 @@ require_once 'config.php';
           </div>
         </div>
       </nav>
-      
-<form  action="event.php" method="post" enctype="multipart/form-data" >
+      <!-- Display Message -->
+<script src="script/message.js"></script>
+<div id="messageContainer"></div>
+<!-- Form to submit info -->
+<form onsubmit="return validateForm();" action="event.php" method="post" enctype="multipart/form-data" >
 <div class="container w-75  ">
   <h2 class="text-center fw-bold my-4">Create Event</h2>
   <div class="mb-3">
@@ -101,100 +104,87 @@ require_once 'config.php';
   <label for="formFile" class="form-label">Image</label>
   <input name="image" class="form-control" type="file" id="formFile" accept="image/*" required>
 </div>
-<div class="form-floating">
-  <textarea name="description" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" aria-describedby="textareaHelp" required></textarea>
-  <label for="floatingTextarea2">Type Here</label>
-  <div id="textareaHelp" class="form-text">Description must be short </div>
-
+<div class="form-floating ">
+  <textarea oninput="countWords()" name="description" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" aria-describedby="textareaHelp" required></textarea>
+  <label for="floatingTextarea2" class="">Type Here </label><p>Word Count: <span id="wordCount">0</span></p>
+  <div id="textareaHelp" class="form-text">Description must be short (at least 15 words and at most 20 words for displaying on card)</div>
 </div>
+
 <button type="submit" class="btn theme-bg theme-hover text-light mt-3 w-100 p-2 " style="margin-bottom: 5rem;">Create Event</button>
   </div>
   </form>
 </body>
 </html>
-
+<!-- PHP Script -->
 <?php
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Retrieve form data
 $status = $_POST['status'];
-$image = $_POST['image'];
 $title = $_POST['title'];
 $description = $_POST['description'];
 $date = $_POST['date'];
 $location = $_POST['location'];
 
+$sql_check = "SELECT * FROM event_detail WHERE title = '$title' AND description = '$description'";
+$result_check = $conn->query($sql_check);
 
-// Check if image file is uploaded
-
+if ($result_check->num_rows > 0) {
+  //If Data already exists in the database
+  echo "<script>displayMessage('Data already submitted', 'danger');</script>";
+} else {
 
 function validateImageDimensions($file_tmp) {
-    
     list($width, $height) = getimagesize($file_tmp);
-
-    
-    $max_width = 348; 
-    $max_height = 240; 
-
-    
+    // Size can't be more than 348*240
+    $max_width = 348;
+    $max_height = 240;
     if($width > $max_width || $height > $max_height) {
-        return false; 
+        return false;
     }
-
-    return true; 
+    return true;
 }
-
-// Check if image file is uploaded
-$max_file_size = 200 * 1024; // 200 KB
 
 if(isset($_FILES['image'])) {
-    $file_name = $_FILES['image']['name'];
-    $file_tmp = $_FILES['image']['tmp_name'];
-    $file_size = $_FILES['image']['size'];
+  $file_name = $_FILES['image']['name'];
+  $file_tmp = $_FILES['image']['tmp_name'];
+  $file_size = $_FILES['image']['size'];
 
-    $upload_dir = "Pic/uploaded/";
+  $upload_dir = "Pic/uploaded/";
+  $max_file_size = 200 * 1024; // 200 KB in bytes is the maximum Size 
 
-    if(!empty($file_name) && is_uploaded_file($file_tmp)) {
-        // Check the image dimensions
-        if(validateImageDimensions($file_tmp)) {
-            // Check the image file size
-            if($file_size <= $max_file_size) {
-                if(move_uploaded_file($file_tmp, $upload_dir.$file_name)) {
-                    echo "Image uploaded successfully.";
-                    $finalimage = $upload_dir.$file_name;
+  if(!empty($file_name) && is_uploaded_file($file_tmp)) {
+      // Check the image dimensions
+      if(validateImageDimensions($file_tmp)) {
+          // Check the image file size
+          if($file_size <= $max_file_size) {
+              if(move_uploaded_file($file_tmp, $upload_dir.$file_name)) {
+                  $finalimage = $upload_dir.$file_name;
 
-                    // Proceed with database insertion
-                    $sql = "INSERT INTO event_detail (status, image, title, description, date, location) 
-                            VALUES ('$status', '$finalimage', '$title', '$description', '$date', '$location')";
+                  // Proceed with database insertion
+                  $sql = "INSERT INTO event_detail (status, image, title, description, date, location)
+                          VALUES ('$status', '$finalimage', '$title', '$description', '$date', '$location')";
 
-                    if ($conn->query($sql) === TRUE) {
-                        echo "Event added successfully";
-                    } else {
-                        echo "Error: " . $sql . "<br>" . $conn->error;
-                    }
-                } else {
-                    echo "Error uploading image.";
-                }
-            } else {
-                echo "Error: The file size exceeds the maximum allowed size (50 KB).";
-            }
-        } else {
-            echo "Error: Image dimensions exceed the maximum allowed values (800x600).";
-        }
-    } else {
-        echo "Error: Invalid file or no file uploaded.";
-    }
+                  if ($conn->query($sql) === TRUE) {
+                      echo "<script>displayMessage('Event added successfully', 'success');</script>";
+                  } else {
+                      echo "<script>displayMessage('Error: " . $sql . "<br>" . $conn->error . "', 'danger');</script>";
+                  }
+              } else {
+                  echo "<script>displayMessage('Error uploading image', 'danger');</script>";
+              }
+          } else {
+              echo "<script>displayMessage('Error: The file size exceeds the maximum allowed size (200 KB)', 'danger');</script>";
+          }
+      } else {
+          echo "<script>displayMessage('Error: Image dimensions exceed the maximum allowed values (800x600)', 'danger');</script>";
+      }
+  } else {
+      echo "<script>displayMessage('Error: Invalid file or no file uploaded', 'danger');</script>";
+  }
+} else {
+  echo "<script>displayMessage('No image file uploaded', 'danger');</script>";
 }
-   else {
-    echo "No image file uploaded.";
 }
-
-
-
-
-// Prepare and execute SQL query to insert event details into the database
-
 }
 // Close the database connection
 $conn->close();
@@ -211,6 +201,8 @@ $conn->close();
       crossorigin="anonymous"
     ></script>
 <script src="https://cdn.lordicon.com/lordicon.js"></script>
+<script src="script/script.js"></script>
+
 
 </body>
 </html>
