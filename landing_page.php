@@ -35,15 +35,22 @@
       </li>
           <!-- Example HTML markup for the user dropdown menu -->
 <div class="dropdown">
+<div class="d-flex">
+
   <button class="btn  dropdown-toggle" type="button" id="userDropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
-      User
+  <lord-icon
+  src="https://cdn.lordicon.com/kthelypq.json"
+  trigger="hover"
+  >
+</lord-icon>
   </button>
-  <ul class="dropdown-menu" aria-labelledby="userDropdownMenu">
+  <ul class="dropdown-menu"  aria-labelledby="userDropdownMenu">
       <li><a class="dropdown-item" href="#">Profile</a></li>
       <li><a class="dropdown-item" href="#">Settings</a></li>
       <li><hr class="dropdown-divider"></li>
       <li><a class="dropdown-item" href="logout.php">Logout</a></li>
   </ul>
+  </div>
 </div>
       '
       ;
@@ -80,6 +87,7 @@
   </div>
 </div>
 </div>
+
 <!-- Events -->
 <div class="container my-5">
   <div class="d-flex justify-content-between">
@@ -88,7 +96,7 @@
     <div>
     <!-- Dropdown 1 -->
     <div class="btn-group">
-      <button type="button" class="btn dropdown-bg  dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      <button type="button" class="btn   dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         Weekdays
       </button>
       <ul class="dropdown-menu">
@@ -99,7 +107,7 @@
     </div>
     <!-- Dropdown 2 -->
     <div class="btn-group">
-      <button type="button" class="btn dropdown-bg  dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      <button type="button" class="btn   dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         Event Type
       </button>
       <ul class="dropdown-menu">
@@ -110,7 +118,7 @@
     </div>
     <!-- Dropdown 3 -->
     <div class="btn-group">
-      <button type="button" class="btn dropdown-bg  dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      <button type="button" class="btn  dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         Any Category
       </button>
       <ul class="dropdown-menu">
@@ -211,6 +219,70 @@
         </div>
       </div>
     </div>
+
+
+
+
+    <!-- Dynamically Creates Event -->
+    <!-- Dynamically Creates Event -->
+    <!-- Dynamically Creates Event -->
+    <!-- Dynamically Creates Event -->
+
+    <?php
+
+     $sql = "SELECT * FROM events"; // Assuming you have a table named 'events'
+    $result = $conn->query($sql);
+
+     // Check if any events were found
+    if ($result->num_rows > 0) {
+         // Initialize a counter variable to keep track of the number of cards generated
+        $counter = 0;
+
+         // Start a new row
+        echo '<div class="row">';
+
+         // Loop through each row of the result set
+        while($row = $result->fetch_assoc()) {
+             // Generate HTML structure for each event
+            echo '<div class="col-md-4">';
+            echo '<div class="card my-4 d-flex justify-content-center align-items-center" style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);">';
+            echo '<div style="width: 85%;">';
+            echo '<span class="badge text-bg-light position-absolute" style="z-index: 1; top: 6%; left: 10%;">' . $row['status'] . '</span>';
+            echo '<img src="' . $row['image'] . '" class="card-img-top mt-3 position-relative" alt="...">';
+            echo '</div>';
+            echo '<div class="card-body">';
+            echo '<h5 class="card-title">' . $row['title'] . '</h5>';
+            echo '<p class="card-text">' . $row['description'] . '</p>';
+            echo '<p class="card-text theme-txt">' . $row['date'] . '</p>';
+            echo '<p class="card-text text-secondary">' . $row['location'] . '</p>';
+            echo '<a href="' . $row['link'] . '" class="btn theme-bg theme-hover text-white">Read More</a>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+
+             // Increment the counter
+            $counter++;
+
+             // Check if the counter is divisible by 3 (i.e., if we have generated three cards)
+            if ($counter % 3 == 0) {
+                 // Close the current row and start a new row
+                 echo '</div>'; // Close current row
+                 echo '<div class="row">'; // Start new row
+            }
+        }
+
+         // Close the final row
+        echo '</div>';
+    } else {
+        echo "No events found.";
+    }
+    ?>
+
+    <!-- end -->
+    <!-- end -->
+    <!-- end -->
+    <!-- end -->
+
 </div>
 <!-- Registration -->
 <div class="container-fluid mt-5 d-flex justify-content-evenly align-items-center" style="background-color: #10107B;">
@@ -220,7 +292,7 @@
 <div class="col-md-6 text-light">
   <h3>Make your own Event </h3>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
-  <a href="#" class="btn theme-bg theme-hover text-white">Create Events</a>
+  <a href="event.php" class="btn theme-bg theme-hover text-white">Create Events</a>
 </div>
 </div>
 <!-- Clubs -->
@@ -320,6 +392,7 @@ echo'<div class="container my-5">
 <p class="text-light">Copyrighted © 2024 Upload by HubFiesta
 </p>
 </div>
+<a href="https://lordicon.com/">Icons by Lordicon.com</a>
 </div>
 <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -331,5 +404,7 @@ echo'<div class="container my-5">
       integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
       crossorigin="anonymous"
     ></script>
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
+
 </body>
 </html>
