@@ -26,13 +26,13 @@ require_once 'config.php';
             // If logged in, showing personalized content
             echo ' 
             <li class="nav-item">
-                <a class="nav-link active rounded-pill px-3  theme-bg theme-hover link-light" aria-current="page" href="#"> Home </a>
+                <a class="nav-link  px-3   link-dark" aria-current="page" href="landing_page.php"> Home </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link link-dark" href="#">Blog</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link link-dark" href="#">All Events</a>
+                <a class="nav-link link-dark" href="eventdisp.php">All Events</a>
             </li>
                 
       <div class="dropdown">
@@ -126,14 +126,75 @@ $date = $_POST['date'];
 $location = $_POST['location'];
 
 
-// Prepare and execute SQL query to insert event details into the database
-$sql = "INSERT INTO event_detail (status, image, title, description, date, location) VALUES ('$status', '$image', '$title', '$description', '$date', '$location')";
+// Check if image file is uploaded
 
-if ($conn->query($sql) === TRUE) {
-    echo "Event added successfully";
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+
+function validateImageDimensions($file_tmp) {
+    
+    list($width, $height) = getimagesize($file_tmp);
+
+    
+    $max_width = 348; 
+    $max_height = 240; 
+
+    
+    if($width > $max_width || $height > $max_height) {
+        return false; 
+    }
+
+    return true; 
 }
+
+// Check if image file is uploaded
+$max_file_size = 200 * 1024; // 200 KB
+
+if(isset($_FILES['image'])) {
+    $file_name = $_FILES['image']['name'];
+    $file_tmp = $_FILES['image']['tmp_name'];
+    $file_size = $_FILES['image']['size'];
+
+    $upload_dir = "Pic/uploaded/";
+
+    if(!empty($file_name) && is_uploaded_file($file_tmp)) {
+        // Check the image dimensions
+        if(validateImageDimensions($file_tmp)) {
+            // Check the image file size
+            if($file_size <= $max_file_size) {
+                if(move_uploaded_file($file_tmp, $upload_dir.$file_name)) {
+                    echo "Image uploaded successfully.";
+                    $finalimage = $upload_dir.$file_name;
+
+                    // Proceed with database insertion
+                    $sql = "INSERT INTO event_detail (status, image, title, description, date, location) 
+                            VALUES ('$status', '$finalimage', '$title', '$description', '$date', '$location')";
+
+                    if ($conn->query($sql) === TRUE) {
+                        echo "Event added successfully";
+                    } else {
+                        echo "Error: " . $sql . "<br>" . $conn->error;
+                    }
+                } else {
+                    echo "Error uploading image.";
+                }
+            } else {
+                echo "Error: The file size exceeds the maximum allowed size (50 KB).";
+            }
+        } else {
+            echo "Error: Image dimensions exceed the maximum allowed values (800x600).";
+        }
+    } else {
+        echo "Error: Invalid file or no file uploaded.";
+    }
+}
+   else {
+    echo "No image file uploaded.";
+}
+
+
+
+
+// Prepare and execute SQL query to insert event details into the database
+
 }
 // Close the database connection
 $conn->close();

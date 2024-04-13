@@ -19,7 +19,7 @@
       <div class="navbar-nav">
         <ul class="nav nav-pill">
         <?php
-        session_start();
+        require_once 'config.php';
     // Checking if the user is logged in
     if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
       // If logged in, showing personalized content
@@ -201,7 +201,7 @@
           <p class="card-text">BestSelller Book Bootcamp -write, Market & Publish Your Book -Lucknow</p>
           <p class="card-text theme-txt">Saturdat, March 18, 9.30PM</p>
   <p class="card-text text-secondary">ONLINE EVENT - Attend anywhere</p>
-          <a href="#" class="btn theme-bg theme-hover text-white">Read More</a>
+          <a href="eventdisp.php" class="btn theme-bg theme-hover text-white">Read More</a>
         </div>
       </div>
       <!-- Card 3 -->
@@ -219,69 +219,66 @@
         </div>
       </div>
     </div>
-
-
-
-
     <!-- Dynamically Creates Event -->
-    <!-- Dynamically Creates Event -->
-    <!-- Dynamically Creates Event -->
-    <!-- Dynamically Creates Event -->
-
     <?php
 
-     $sql = "SELECT * FROM events"; // Assuming you have a table named 'events'
-    $result = $conn->query($sql);
+// Fetch latest 6 event details from the database
+$sql = "SELECT * FROM (SELECT * FROM event_detail ORDER BY `Event ID` DESC LIMIT 6) AS LastSix ORDER BY `Event ID` ASC;"; // Assuming 'date' is a column representing the event date
+$result = $conn->query($sql);
 
-     // Check if any events were found
-    if ($result->num_rows > 0) {
-         // Initialize a counter variable to keep track of the number of cards generated
-        $counter = 0;
 
-         // Start a new row
-        echo '<div class="row">';
+if ($result->num_rows > 0) {
+    
+    $counter = 0;
 
-         // Loop through each row of the result set
-        while($row = $result->fetch_assoc()) {
-             // Generate HTML structure for each event
-            echo '<div class="col-md-4">';
-            echo '<div class="card my-4 d-flex justify-content-center align-items-center" style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);">';
-            echo '<div style="width: 85%;">';
-            echo '<span class="badge text-bg-light position-absolute" style="z-index: 1; top: 6%; left: 10%;">' . $row['status'] . '</span>';
-            echo '<img src="' . $row['image'] . '" class="card-img-top mt-3 position-relative" alt="...">';
-            echo '</div>';
-            echo '<div class="card-body">';
-            echo '<h5 class="card-title">' . $row['title'] . '</h5>';
-            echo '<p class="card-text">' . $row['description'] . '</p>';
-            echo '<p class="card-text theme-txt">' . $row['date'] . '</p>';
-            echo '<p class="card-text text-secondary">' . $row['location'] . '</p>';
-            echo '<a href="' . $row['link'] . '" class="btn theme-bg theme-hover text-white">Read More</a>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
+    // Start a new row
+    echo '<div class="row">';
 
-             // Increment the counter
-            $counter++;
-
-             // Check if the counter is divisible by 3 (i.e., if we have generated three cards)
-            if ($counter % 3 == 0) {
-                 // Close the current row and start a new row
-                 echo '</div>'; // Close current row
-                 echo '<div class="row">'; // Start new row
-            }
-        }
-
-         // Close the final row
+    // Loop through each row of the result set
+    while($row = $result->fetch_assoc()) {
+       
+        echo '<div class="col-md-4">';
+        echo '<div class="card my-4 d-flex justify-content-center align-items-center" style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);">';
+        echo '<div style="width: 85%;">';
+        echo '<span class="badge text-bg-light position-absolute" style="z-index: 1; top: 6%; left: 10%;">' . $row['status'] . '</span>';
+        echo '<img src="' . $row['image'] . '" class="card-img-top mt-3 position-relative" alt="...">';
         echo '</div>';
-    } else {
-        echo "No events found.";
+        echo '<div class="card-body">';
+        echo '<h5 class="card-title">' . $row['title'] . '</h5>';
+        echo '<p class="card-text">' . $row['description'] . '</p>';
+        echo '<p class="card-text theme-txt">' . $row['date'] . '</p>';
+        echo '<p class="card-text text-secondary">' . $row['location'] . '</p>';
+        echo '<p class="card-text text-secondary">Event ID: ' . $row['Event ID'] . '</p>';
+        echo '<a href="eventdisp.php" class="btn theme-bg theme-hover text-white">Read More</a>';
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+
+        
+        $counter++;
+
+        
+        if ($counter % 3 == 0) {
+           
+            echo '</div>'; // Close current row
+            echo '<div class="row">'; // Start new row
+        }
     }
-    ?>
+
+    // Close the final row
+    echo '</div>';
+} else {
+    echo "No events found.";
+}
+
+// Close the database connection
+$conn->close();
+?>
+
+
 
     <!-- end -->
-    <!-- end -->
-    <!-- end -->
-    <!-- end -->
+
 
 </div>
 <!-- Registration -->
