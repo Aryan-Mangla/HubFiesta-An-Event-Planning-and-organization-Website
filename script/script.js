@@ -32,13 +32,3 @@
         // Update the word count display
         document.getElementById("wordCount").textContent = words.length;
     }
-
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        // Clear all form fields
-        document.querySelectorAll('input[type=text], textarea').forEach(function(field) {
-            field.value = '';
-        });
-    });
-    
-

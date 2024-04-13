@@ -129,8 +129,10 @@
     </div>
   </div>
   </div> <!--Event navbar end-->
-
-    <!-- Dynamically Creates Event -->
+<!-- Display Message -->
+<script src="script/message.js"></script>
+<div id="messageContainer"></div>
+<!-- Dynamically Creates Event -->
     <?php
 // Fetch latest 6 event details from the database
 $sql = "SELECT * FROM (SELECT * FROM event_detail ORDER BY `Event ID` DESC LIMIT 6) AS LastSix ORDER BY `Event ID` ASC;"; // Assuming 'date' is a column representing the event date
@@ -160,36 +162,42 @@ if ($result->num_rows > 0) {
         echo '<p class="card-text text-secondary">' . $row['location'] . '</p>';
         echo '<p class="card-text text-secondary">Event ID: ' . $row['Event ID'] . '</p>';
         echo '<a href="eventdisp.php" class="btn theme-bg theme-hover text-white">Read More</a>';
+        echo '<a href="delete_event.php?id=' . $row['Event ID'] . '" class="delete-icon float-end" title="Delete event">';
+        echo '<lord-icon src="https://cdn.lordicon.com/wpyrrmcq.json" trigger="hover" style="width:30px;height:30px"></lord-icon>';
+        echo '</a>';
         echo '</div>';
         echo '</div>';
         echo '</div>';
-
-        
         $counter++;
-
-        
         if ($counter % 3 == 0) {
-           
             echo '</div>'; // Close current row
             echo '<div class="row">'; // Start new row
         }
     }
-
     // Close the final row
     echo '</div>';
 } else {
     echo "No events found.";
 }
+if(isset($_GET['id'])) {
+  // Sanitize the input to prevent SQL injection
+  $event_id = $conn->real_escape_string($_GET['id']);
 
+  // Prepare SQL statement to delete the event
+  $sql = "DELETE FROM event_detail WHERE `Event ID` = '$event_id'";
+
+  // Execute the SQL statement
+  if ($conn->query($sql) === TRUE) {
+    echo "<script>displayMessage('Event Deleted Successfully', 'success');</script>";
+      exit();
+  } else {
+    echo "<script>displayMessage('Unable to delete event: Either try contacting the owner or  aftersometime ', 'danger');</script>";
+  }
+}
 // Close the database connection
 $conn->close();
 ?>
-
-
-
-    <!-- end -->
-
-
+<!-- end -->
 </div>
 <!-- Registration -->
 <div class="container-fluid mt-5 d-flex justify-content-evenly align-items-center" style="background-color: #10107B;">
