@@ -97,23 +97,28 @@ if (isset($_GET['id'])) {
       $faq_result = $conn->query($faq_sql);
       
       if ($faq_result->num_rows > 0) {
-          echo '<div class="accordion accordion-flush" id="accordionFlushExample">';
-          while ($faq = $faq_result->fetch_assoc()) {
-              echo '<div class="accordion-item">
-                      <h2 class="accordion-header">
-                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse' . $faq['id'] . '" aria-expanded="false" aria-controls="faqCollapse' . $faq['id'] . '">
-                              ' . $faq['title'] . '
-                          </button>
-                      </h2>
-                      <div id="faqCollapse' . $faq['id'] . '" class="accordion-collapse collapse" aria-labelledby="flush-heading' . $faq['id'] . '" data-bs-parent="#accordionFlushExample">
-                          <div class="accordion-body">
-                              ' . $faq['content'] . '
-                          </div>
-                      </div>
-                  </div>';
-          }
-          echo '</div>'; // Close accordion
-      } else {
+    echo '<div class="accordion accordion-flush" id="accordionFlushExample">';
+    while ($faq = $faq_result->fetch_assoc()) {
+        echo '<div class="accordion-item border rounded">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse' . $faq['id'] . '" aria-expanded="false" aria-controls="faqCollapse' . $faq['id'] . '">
+                        ' . $faq['title'] . '
+                    </button>
+                </h2>
+                <div id="faqCollapse' . $faq['id'] . '" class="accordion-collapse collapse" aria-labelledby="flush-heading' . $faq['id'] . '" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body" style="overflow-wrap: break-word;">
+                        ' . $faq['content'] . '
+                        <p> FAQ id:'.$faq['id']. '</p>
+                        <a href="del_FAQ.php?id=' . $faq['id'] . '" class="delete-icon float-end" title="Delete event">
+        <lord-icon src="https://cdn.lordicon.com/wpyrrmcq.json" trigger="hover" style="width:30px;height:30px"></lord-icon>
+        </a>
+                    </div>
+                </div>
+            </div>';
+    }
+    echo '</div>'; // Close accordion
+}
+ else {
           echo '<p>No FAQs available for this event.</p>';
       }
 
