@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Insert accordion data into the database
         $insert_sql = "INSERT INTO event_faq (event_id, title, content) VALUES ('$event_id', '$title', '$content')";
         if ($conn->query($insert_sql) === TRUE) {
-            echo "Accordion item added successfully!";
+            header("Location: test.php?id=" .$event_id );
         } else {
             echo "Error: " . $insert_sql . "<br>" . $conn->error;
         }
@@ -38,20 +38,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
+<div class="container-fluid">
+<a href="test.php?id=<?php echo $_GET['id']; ?>"  class="btn theme-bg theme-hover text-white my-5"> Back</a>
+</div>
     <div class="container">
         <h2 class="text-center mb-5">Add FAQ</h2>
         <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="w-50 mx-auto">
             <input type="hidden" name="event_id" value="<?php echo $_GET['id']; ?>">
             <div class="mb-3">
                 <label for="title" class="form-label">Title:</label>
-                <input type="text" id="title" name="title" class="form-control">
+                <input type="text" id="title" name="title" class="form-control" required>
             </div>
             <div class="mb-3">
                 <label for="content" class="form-label">Content:</label>
-                <textarea id="content" name="content" class="form-control"></textarea>
+                <textarea id="content" name="content" class="form-control" required></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn theme-bg theme-hover text-white">Submit</button>
         </form>
     </div>
 

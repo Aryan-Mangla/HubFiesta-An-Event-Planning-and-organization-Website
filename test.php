@@ -14,7 +14,7 @@ require_once 'config.php';
     if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
       // If logged in, showing personalized content
       echo ' 
-<nav class="navbar navbar-expand-lg bg-body-tertiary mb-5">
+<nav class="navbar navbar-expand-lg bg-body-tertiary mb-2">
   <div class="container d-flex justify-content-evenly">
       <a class="navbar-brand" href="index.html"> <h2 class="my3 fw-bolder">Hub<span class="theme-txt">Fiesta</span></h2></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,12 +57,14 @@ require_once 'config.php';
     </div>
   </div>
 </nav>
+<div class="container">
+<a href="landing_page.php" class="btn theme-bg theme-hover text-white mb-5"> Back</a>
+</div>
 '
 ;
   } else {
       // If not logged in, showing generic content
       header('Location: sign-in.html');
-      
       ;
   }
     ?>
@@ -88,9 +90,12 @@ if (isset($_GET['id'])) {
                       <p>Coordinators contact: ' . $event['Contact'] . '</p>
                   </div>
               </div>
-              <div class="row mt-5">
+              <div class="row my-5">
                   <div class="col-md-6">
-                      <h1>FAQs</h1>';
+                  <div class="d-flex justify-content-between align-items-center">
+                      <h1>FAQs</h1>
+                      <span><a href="accordion_page.php?id=' . $event_id . '" class="btn theme-bg theme-hover text-white">Add FAQ</a><a href="del_all_faq.php?id=' . $event_id . '" class="btn theme-bg theme-hover text-white mx-2">Delete all FAQ</a></span>
+                      </div>';
       
       // Fetch accordion items associated with the event ID
       $faq_sql = "SELECT * FROM event_faq WHERE event_id = '$event_id'";
@@ -126,8 +131,7 @@ if (isset($_GET['id'])) {
       echo '<div class="col-md-6">
                       <p>Tags: ' . $event['Tag'] . '</p>
                       <p>Share with friends</p>
-                      <a href="accordion_page.php?id=' . $event_id . '" class="btn btn-primary">Add FAQ</a>
-                  </div>
+                      </div>
               </div>
           </div>';
 
