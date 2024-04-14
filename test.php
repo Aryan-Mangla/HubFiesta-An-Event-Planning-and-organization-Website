@@ -69,45 +69,68 @@ require_once 'config.php';
 
 
 <?php
+if (isset($_GET['id'])) {
+  $event_id = $conn->real_escape_string($_GET['id']);
+  $sql = "SELECT * FROM event_detail WHERE `Event ID` = '$event_id'";
+  $result = $conn->query($sql);
+  if ($result->num_rows > 0) {
+      $event = $result->fetch_assoc();
+      // Display event details
+      echo '<div class="container">
+              <div class="row">
+                  <div class="col-md-6">
+                      <img src="' . $event['image'] . '" class="img" style="max-width: 500px; max-height: 500px;" alt="">
+                  </div>
+                  <div class="col-md-6">
+                      <h1>' . $event['title'] . '</h1>
+                      <p>' . $event['description'] . '</p>
+                      <p>Date and Time: ' . $event['date'] . '</p>
+                      <p>Coordinators contact: ' . $event['Contact'] . '</p>
+                  </div>
+              </div>
+              <div class="row mt-5">
+                  <div class="col-md-6">
+                      <h1>FAQs</h1>';
+      
+      // Fetch accordion items associated with the event ID
+      $faq_sql = "SELECT * FROM event_faq WHERE event_id = '$event_id'";
+      $faq_result = $conn->query($faq_sql);
+      
+      if ($faq_result->num_rows > 0) {
+          echo '<div class="accordion accordion-flush" id="accordionFlushExample">';
+          while ($faq = $faq_result->fetch_assoc()) {
+              echo '<div class="accordion-item">
+                      <h2 class="accordion-header">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse' . $faq['id'] . '" aria-expanded="false" aria-controls="faqCollapse' . $faq['id'] . '">
+                              ' . $faq['title'] . '
+                          </button>
+                      </h2>
+                      <div id="faqCollapse' . $faq['id'] . '" class="accordion-collapse collapse" aria-labelledby="flush-heading' . $faq['id'] . '" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                              ' . $faq['content'] . '
+                          </div>
+                      </div>
+                  </div>';
+          }
+          echo '</div>'; // Close accordion
+      } else {
+          echo '<p>No FAQs available for this event.</p>';
+      }
 
-if(isset($_GET['id'])) {
-    $event_id = $conn->real_escape_string($_GET['id']);
-    $sql = "SELECT * FROM event_detail WHERE `Event ID` = '$event_id'";
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
-        // Event details found, display them
-        $event = $result->fetch_assoc();
-        // Display event details
-        echo '<div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <img src="' . $event['image'] . '" class="img" style="max-width: 500px; max-height: 500px;" alt="">
-                    </div>
-                    <div class="col-md-6">
-                        <h1>' . $event['title'] . '</h1>
-                        <p>' . $event['description'] . '</p>
-                        <p>Date and Time: ' . $event['date'] . '</p>
-                        <p>Coordinators contact: ' . $event['Contact'] . '</p>
-                        <!-- Add more event details as needed -->
-                    </div>
-                </div>
-                <div class="row mt-5">
-                    <div class="col-md-6">
-                        <h1>FAQs</h1>
-                        <div id="accordionItems"></div>
-<button id="addAccordionItemBtn" class="btn btn-primary">+</button>
-                    </div>
-                    <div class="col-md-6">
-                        <p>Tags: ' . $event['Tag'] . '</p>
-                        <p>Share with friends</p>
-                    </div>
-                </div>
-            </div>';
-        // Pass the event ID to JavaScript for dynamic loading of accordion items
-        echo '<script>var eventId = ' . $event_id . ';</script>';
-    } else {
-        echo "Event not found.";
-    }
+      echo '</div>'; // Close col-md-6
+      echo '<div class="col-md-6">
+                      <p>Tags: ' . $event['Tag'] . '</p>
+                      <p>Share with friends</p>
+                      <a href="accordion_page.php?id=' . $event_id . '" class="btn btn-primary">Add FAQ</a>
+                  </div>
+              </div>
+          </div>';
+
+      // Pass the event ID to JavaScript for dynamic loading of accordion items
+      echo '<script>var eventId = ' . $event_id . ';</script>';
+  } else {
+      echo "Event not found.";
+  }
 }
 ?>
 
