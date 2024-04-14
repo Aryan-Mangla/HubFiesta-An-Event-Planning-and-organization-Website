@@ -137,31 +137,25 @@
 // Fetch latest 6 event details from the database
 $sql = "SELECT * FROM (SELECT * FROM event_detail ORDER BY `Event ID` DESC LIMIT 6) AS LastSix ORDER BY `Event ID` ASC;"; // Assuming 'date' is a column representing the event date
 $result = $conn->query($sql);
-
-
 if ($result->num_rows > 0) {
-    
     $counter = 0;
-
     // Start a new row
     echo '<div class="row">';
-
     // Loop through each row of the result set
     while($row = $result->fetch_assoc()) {
-       
         echo '<div class="col-md-4">';
         echo '<div class="card my-4 d-flex justify-content-center align-items-center" style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);">';
         echo '<div style="width: 85%;">';
         echo '<span class="badge text-bg-light position-absolute" style="z-index: 1; top: 6%; left: 10%;">' . $row['status'] . '</span>';
-        echo '<img src="' . $row['image'] . '" class="card-img-top mt-3 position-relative" alt="...">';
+        echo '<img src="' . $row['image'] . '" class="card-img-top mt-3 position-relative" style="max-width: 348px; max-height: 240px;" alt="...">';
         echo '</div>';
         echo '<div class="card-body">';
         echo '<h5 class="card-title">' . $row['title'] . '</h5>';
-        echo '<p class="card-text">' . $row['description'] . '</p>';
+        echo '<p class="card-text d-inline-block module"  >' . $row['description'] . '</p>';
         echo '<p class="card-text theme-txt">' . $row['date'] . '</p>';
         echo '<p class="card-text text-secondary">' . $row['location'] . '</p>';
         echo '<p class="card-text text-secondary">Event ID: ' . $row['Event ID'] . '</p>';
-        echo '<a href="eventdisp.php" class="btn theme-bg theme-hover text-white">Read More</a>';
+        echo '<a href="test.php?id=' . $row['Event ID'] . '" class="btn theme-bg theme-hover text-white">Read More</a>';
         echo '<a href="delete_event.php?id=' . $row['Event ID'] . '" class="delete-icon float-end" title="Delete event">';
         echo '<lord-icon src="https://cdn.lordicon.com/wpyrrmcq.json" trigger="hover" style="width:30px;height:30px"></lord-icon>';
         echo '</a>';
@@ -320,6 +314,8 @@ echo'<div class="container my-5">
       crossorigin="anonymous"
     ></script>
 <script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+<script src="script/script.js"></script>
 
 </body>
 </html>

@@ -10,12 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result->num_rows > 0) {
         // User found, verify password
         $user = $result->fetch_assoc();
-
-
         if (password_verify($password, $user['Password'])) {
             $_SESSION['email'] = $user['Email'];
-                // echo 'User found';
-                $_SESSION['loggedin'] = true;
+            $_SESSION['loggedin'] = true;
             header('Location: landing_page.php');
             exit();
         
@@ -30,7 +27,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "User not found";
     }
 }
-
 // Close the database connection
 $conn->close();
-?>

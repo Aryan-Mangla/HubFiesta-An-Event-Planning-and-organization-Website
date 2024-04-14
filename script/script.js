@@ -3,15 +3,9 @@
     function validateForm() {
         var description = document.getElementById("floatingTextarea2").value;
         var minWords = 15;
-        var maxWords = 20;
         var words = description.trim().split(/\s+/);
         if (words.length < minWords) {
             alert("Description must contain at least " + minWords + " words.");
-            return false;
-        }
-        // Check if the number of words exceeds the maximum allowed
-        if (words.length > maxWords) {
-            alert("Description cannot exceed " + maxWords + " words.");
             return false;
         }
         return true;
@@ -32,3 +26,4 @@
         // Update the word count display
         document.getElementById("wordCount").textContent = words.length;
     }
+

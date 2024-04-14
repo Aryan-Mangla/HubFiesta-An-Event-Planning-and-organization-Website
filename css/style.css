@@ -22,8 +22,9 @@
 .dropdown-bg{
 background-color: #687C94;
 }
-/* .dropdown-toggle::after {
-    text-decoration: none;
-    display: none;
-} */
-
+.module {
+    width: 300px;
+    overflow:hidden; 
+    white-space:nowrap; 
+    text-overflow: ellipsis;
+}

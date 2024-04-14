@@ -95,8 +95,14 @@ require_once 'config.php';
   <label for="Location">Location</label>
   <input name="location" id="Location" class="form-control" type="text" placeholder="Enter location of event" aria-label="default input example" required >
   </div>
-  
-
+  <div class="mb-3">
+  <label for="Contact">Contact of organiser</label>
+  <input id="Contact" name="Contact" class="form-control" type="text" placeholder="Add any one contact person " aria-label="default input example" required >
+  </div>
+  <div class="mb-3">
+  <label for="Tag">Tag</label>
+  <input id="Tag" name="Tag" class="form-control" type="text" placeholder="Tags like Seminar, UI/UX, Dance  " aria-label="default input example" required >
+  </div>
 </div>
   <div class="container">
     <h2 class="text-center fw-bolder mt-4">Event Description</h2>
@@ -109,7 +115,6 @@ require_once 'config.php';
   <label for="floatingTextarea2" class="">Type Here </label><p>Word Count: <span id="wordCount">0</span></p>
   <div id="textareaHelp" class="form-text">Description must be short (at least 15 words and at most 20 words for displaying on card)</div>
 </div>
-
 <button type="submit" class="btn theme-bg theme-hover text-light mt-3 w-100 p-2 " style="margin-bottom: 5rem;">Create Event</button>
   </div>
   </form>
@@ -124,6 +129,10 @@ $title = $_POST['title'];
 $description = $_POST['description'];
 $date = $_POST['date'];
 $location = $_POST['location'];
+$tag = $_POST['Tag'];
+$contact = $_POST['Contact'];
+
+
 
 $sql_check = "SELECT * FROM event_detail WHERE title = '$title' AND description = '$description'";
 $result_check = $conn->query($sql_check);
@@ -161,8 +170,8 @@ if(isset($_FILES['image'])) {
                   $finalimage = $upload_dir.$file_name;
 
                   // Proceed with database insertion
-                  $sql = "INSERT INTO event_detail (status, image, title, description, date, location)
-                          VALUES ('$status', '$finalimage', '$title', '$description', '$date', '$location')";
+                  $sql = "INSERT INTO event_detail (status, image, title, description, date, location, Contact, Tag)
+                          VALUES ('$status', '$finalimage', '$title', '$description', '$date', '$location', '$contact', '$tag')";
 
                   if ($conn->query($sql) === TRUE) {
                       echo "<script>displayMessage('Event added successfully', 'success');</script>";
