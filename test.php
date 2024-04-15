@@ -78,6 +78,8 @@ if (isset($_GET['id'])) {
   if ($result->num_rows > 0) {
       $event = $result->fetch_assoc();
       $event['date'] = date('d-F-Y', strtotime($event['date']));
+      $event['st_time'] = date("H:i", strtotime($event['st_time']));
+      $event['end_time'] = date("H:i", strtotime($event['end_time']));
       // Display event details
       echo '<div class="container">
               <div class="row">
@@ -111,11 +113,15 @@ if (isset($_GET['id'])) {
               </div>
               <div class="row mb-5">
                   <div class="col-md-6">
-                  <div class="d-flex justify-content-between align-items-center">
-                      <h1>FAQs</h1>
+                  <div class="d-flex justify-content-between align-items-center">';
+                  echo'<h1>FAQs</h1>';
+                  // if admin then special option
+                  if (isset($_SESSION['admin']) && $_SESSION['admin'] === '1') {
+                     echo'
                       <span><a href="accordion_page.php?id=' . $event_id . '" class="btn theme-bg theme-hover text-white">Add FAQ</a><a href="del_all_faq.php?id=' . $event_id . '" class="btn theme-bg theme-hover text-white mx-2">Delete all FAQ</a></span>
-                      </div>';
-      
+                      ';
+                  }
+                  echo'</div>';
       // Fetch accordion items associated with the event ID
       $faq_sql = "SELECT * FROM event_faq WHERE event_id = '$event_id'";
       $faq_result = $conn->query($faq_sql);
@@ -131,12 +137,14 @@ if (isset($_GET['id'])) {
                 </h2>
                 <div id="faqCollapse' . $faq['id'] . '" class="accordion-collapse collapse" aria-labelledby="flush-heading' . $faq['id'] . '" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body" style="overflow-wrap: break-word;">
-                        ' . $faq['content'] . '
-                        <p> FAQ id:'.$faq['id']. '</p>
+                        ' . $faq['content'] . '';
+                        // if admin then special option
+                  if (isset($_SESSION['admin']) && $_SESSION['admin'] === '1') {
+                     echo'   <p> FAQ id:'.$faq['id']. '</p>
                         <a href="del_FAQ.php?id=' . $faq['id'] . '" class="delete-icon float-end" title="Delete event">
         <lord-icon src="https://cdn.lordicon.com/wpyrrmcq.json" trigger="hover" style="width:30px;height:30px"></lord-icon>
-        </a>
-                    </div>
+        </a>';}
+                echo'    </div>
                 </div>
             </div>';
     }
@@ -161,12 +169,6 @@ if (isset($_GET['id'])) {
   }
 }
 ?>
-
-
-
-
-
-
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

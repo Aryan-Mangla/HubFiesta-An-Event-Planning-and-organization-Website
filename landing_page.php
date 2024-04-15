@@ -28,10 +28,10 @@
           <a class="nav-link active rounded-pill px-3  theme-bg theme-hover link-light" aria-current="page" href="#"> Home </a>
       </li>
       <li class="nav-item">
-          <a class="nav-link link-dark" href="#">Blog</a>
+          <a class="nav-link link-dark" href="blog.php">Blog</a>
       </li>
       <li class="nav-item">
-          <a class="nav-link link-dark" href="#">All Events</a>
+          <a class="nav-link link-dark" href="eventdisp.php">All Events</a>
       </li>
           <!-- Example HTML markup for the user dropdown menu -->
 <div class="dropdown">
@@ -138,43 +138,47 @@
 $sql = "SELECT * FROM (SELECT * FROM event_detail ORDER BY `Event ID` DESC LIMIT 6) AS LastSix ORDER BY `Event ID` ASC;"; // Assuming 'date' is a column representing the event date
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
-    $counter = 0;
-    // Start a new row
-    echo '<div class="row">';
-    // Loop through each row of the result set
-    while($row = $result->fetch_assoc()) {
-    $row['date'] = date('d-F-Y', strtotime($row['date']));
-    $row['st_time'] = date("H:i", strtotime($row['st_time']));
-        echo '<div class="col-md-4">';
-        echo '<div class="card my-4 d-flex justify-content-center align-items-center" style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);">';
-        echo '<div style="width: 85%;">';
-        echo '<span class="badge text-bg-light position-absolute" style="z-index: 1; top: 6%; left: 10%;">' . $row['status'] . '</span>';
-        echo '<img src="' . $row['image'] . '" class="card-img-top mt-3 position-relative" style="max-width: 348px; max-height: 240px;" alt="...">';
-        echo '</div>';
-        echo '<div class="card-body">';
-        echo '<h5 class="card-title">' . $row['title'] . '</h5>';
-        echo '<p class="card-text d-inline-block module"  >' . $row['description'] . '</p>';
-        echo '<p class="card-text theme-txt">' . $row['date'] . ', <span>'.$row['st_time'] .'</span</p>';
-        echo '<p class="card-text text-secondary">' . $row['location'] . '</p>';
-        echo '<p class="card-text text-secondary">Event ID: ' . $row['Event ID'] . '</p>';
-        echo '<a href="test.php?id=' . $row['Event ID'] . '" class="btn theme-bg theme-hover text-white">Read More</a>';
-        echo '<a href="delete_event.php?id=' . $row['Event ID'] . '" class="delete-icon float-end" title="Delete event">';
-        echo '<lord-icon src="https://cdn.lordicon.com/wpyrrmcq.json" trigger="hover" style="width:30px;height:30px"></lord-icon>';
-        echo '</a>';
-        echo '</div>';
-        echo '</div>';
-        echo '</div>';
-        $counter++;
-        if ($counter % 3 == 0) {
-            echo '</div>'; // Close current row
-            echo '<div class="row">'; // Start new row
-        }
-    }
-    // Close the final row
-    echo '</div>';
+  $counter = 0;
+  // Start a new row
+  echo '<div class="row">';
+  // Loop through each row of the result set
+  while($row = $result->fetch_assoc()) {
+      $row['date'] = date('d-F-Y', strtotime($row['date']));
+      $row['st_time'] = date("H:i", strtotime($row['st_time']));
+      echo '<div class="col-md-4">';
+      echo '<div class="card my-4 d-flex justify-content-center align-items-center" style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);">';
+      echo '<div style="width: 85%;">';
+      echo '<span class="badge text-bg-light position-absolute" style="z-index: 1; top: 6%; left: 10%;">' . $row['status'] . '</span>';
+      echo '<img src="' . $row['image'] . '" class="card-img-top mt-3 position-relative" style="max-width: 348px; max-height: 240px;" alt="...">';
+      echo '</div>';
+      echo '<div class="card-body">';
+      echo '<h5 class="card-title">' . $row['title'] . '</h5>';
+      echo '<p class="card-text d-inline-block module"  >' . $row['description'] . '</p>';
+      echo '<p class="card-text theme-txt">' . $row['date'] . ', <span>'.$row['st_time'] .'</span</p>';
+      echo '<p class="card-text text-secondary">' . $row['location'] . '</p>';
+      echo '<p class="card-text text-secondary">Event ID: ' . $row['Event ID'] . '</p>';
+      echo '<a href="test.php?id=' . $row['Event ID'] . '" class="btn theme-bg theme-hover text-white">Read More</a>';
+      // Conditionally display the delete anchor if the user is an admin
+      if (isset($_SESSION['admin']) && $_SESSION['admin'] === '1') {
+          echo '<a href="delete_event.php?id=' . $row['Event ID'] . '" class="delete-icon float-end" title="Delete event">';
+          echo '<lord-icon src="https://cdn.lordicon.com/wpyrrmcq.json" trigger="hover" style="width:30px;height:30px"></lord-icon>';
+          echo '</a>';
+      }
+      echo '</div>';
+      echo '</div>';
+      echo '</div>';
+      $counter++;
+      if ($counter % 3 == 0) {
+          echo '</div>'; // Close current row
+          echo '<div class="row">'; // Start new row
+      }
+  }
+  // Close the final row
+  echo '</div>';
 } else {
-    echo "No events found.";
+  echo "No events found.";
 }
+
 if(isset($_GET['id'])) {
   // Sanitize the input to prevent SQL injection
   $event_id = $conn->real_escape_string($_GET['id']);
@@ -203,7 +207,13 @@ $conn->close();
 <div class="col-md-6 text-light">
   <h3>Make your own Event </h3>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
-  <a href="event.php" class="btn theme-bg theme-hover text-white">Create Events</a>
+<?php  // if admin then special option
+if (isset($_SESSION['admin']) && $_SESSION['admin'] === '1') {
+echo'<a href="event.php" class="btn theme-bg theme-hover text-white">Create Events</a>';}
+else{
+  echo'<a href="event.php" class="btn theme-bg theme-hover text-white disabled">Create Events</a>';
+}
+?>
 </div>
 </div>
 <!-- Clubs -->
@@ -220,12 +230,8 @@ $conn->close();
   <div class="col-md-3"></div>
 </div>
 <!-- Our Blog -->
-<?php 
 
-
-// Checking if the user is logged in
-if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-echo'<div class="container my-5">
+<div class="container my-5">
 <div class="d-flex justify-content-between">
   <h4 class="my3 fw-bolder">Our<span class="theme-txt">Blogs</span></h4>
 </div>
@@ -271,9 +277,7 @@ echo'<div class="container my-5">
     </div>
   </div>
 </div>
-</div>';
-}
-?>
+</div>
 
 <!-- Footer -->
 <div class="container-fluid mt-5 " style="background-color: #10107B;">
