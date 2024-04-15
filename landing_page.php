@@ -9,7 +9,7 @@
 </head>
 <body >
   <!-- Nav Bar -->
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
   <div class="container d-flex justify-content-evenly">
       <a class="navbar-brand" href="index.html"> <h2 class="my3 fw-bolder">Hub<span class="theme-txt">Fiesta</span></h2></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -143,6 +143,8 @@ if ($result->num_rows > 0) {
     echo '<div class="row">';
     // Loop through each row of the result set
     while($row = $result->fetch_assoc()) {
+    $row['date'] = date('d-F-Y', strtotime($row['date']));
+    $row['st_time'] = date("H:i", strtotime($row['st_time']));
         echo '<div class="col-md-4">';
         echo '<div class="card my-4 d-flex justify-content-center align-items-center" style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);">';
         echo '<div style="width: 85%;">';
@@ -152,7 +154,7 @@ if ($result->num_rows > 0) {
         echo '<div class="card-body">';
         echo '<h5 class="card-title">' . $row['title'] . '</h5>';
         echo '<p class="card-text d-inline-block module"  >' . $row['description'] . '</p>';
-        echo '<p class="card-text theme-txt">' . $row['date'] . '</p>';
+        echo '<p class="card-text theme-txt">' . $row['date'] . ', <span>'.$row['st_time'] .'</span</p>';
         echo '<p class="card-text text-secondary">' . $row['location'] . '</p>';
         echo '<p class="card-text text-secondary">Event ID: ' . $row['Event ID'] . '</p>';
         echo '<a href="test.php?id=' . $row['Event ID'] . '" class="btn theme-bg theme-hover text-white">Read More</a>';

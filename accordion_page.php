@@ -53,7 +53,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="content" class="form-label">Content:</label>
                 <textarea id="content" name="content" class="form-control" required></textarea>
             </div>
-
             <button type="submit" class="btn theme-bg theme-hover text-white">Submit</button>
         </form>
     </div>

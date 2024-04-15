@@ -14,7 +14,7 @@ require_once 'config.php';
     if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
       // If logged in, showing personalized content
       echo ' 
-<nav class="navbar navbar-expand-lg bg-body-tertiary mb-2">
+<nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary mb-2">
   <div class="container d-flex justify-content-evenly">
       <a class="navbar-brand" href="index.html"> <h2 class="my3 fw-bolder">Hub<span class="theme-txt">Fiesta</span></h2></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,20 +77,39 @@ if (isset($_GET['id'])) {
   $result = $conn->query($sql);
   if ($result->num_rows > 0) {
       $event = $result->fetch_assoc();
+      $event['date'] = date('d-F-Y', strtotime($event['date']));
       // Display event details
       echo '<div class="container">
               <div class="row">
-                  <div class="col-md-6">
-                      <img src="' . $event['image'] . '" class="img" style="max-width: 500px; max-height: 500px;" alt="">
-                  </div>
+                  <div class="col-md-6 text-center">
+                      <img src="' . $event['image'] . '" class="img-fluid" style="max-width: 500px; max-height: 500px;" alt="">
+                  
+                      </div>
                   <div class="col-md-6">
                       <h1>' . $event['title'] . '</h1>
-                      <p>' . $event['description'] . '</p>
-                      <p>Date and Time: ' . $event['date'] . '</p>
-                      <p>Coordinators contact: ' . $event['Contact'] . '</p>
+                      <div>
+                        <h3 class="mt-5 fs-1"> Description </h3>
+                        <p>' . $event['description'] . '</p>
+                      </div>
+                      <div>
+                        <h3 class="fw-bold fs-4">Date and Time: </h3>
+                        <div class="d-flex justify-content-between">
+                        <span>
+                          <p> Date: ' . $event['date'] . '</p>
+                          <p> Day: ' . $event['Day'] . '</p>
+                        </span>
+                        <span class="ms-3">
+                          <p> Starting Time: ' . $event['st_time'] . '</p>
+                          <p> Ending Time: ' . $event['end_time'] . '</p>
+                        </span>
+                        </div>
+                      </div>
+                      <p class="fw-bold fs-2">Coordinator Detail: </p>
+                      <p> Name: <span class="theme-txt fw-bold">'.$event['org_name'].'</span></p>
+                      <p> Phone Number: <span class="theme-txt fw-bold">'. $event['Contact'] . '</span></p>
                   </div>
               </div>
-              <div class="row my-5">
+              <div class="row mb-5">
                   <div class="col-md-6">
                   <div class="d-flex justify-content-between align-items-center">
                       <h1>FAQs</h1>

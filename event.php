@@ -81,7 +81,7 @@ require_once 'config.php';
   <div class="mb-3">
   <label for="status1">Status</label>
   <input name="status" id="status1" class="form-control" type="text"  aria-label="default input example" aria-describedby="statusHelp" required>
-  <div id="statusHelp" class="form-text">Example: Free or Rs {Amount} </div>
+  <div id="statusHelp" class="form-text">Example: Free or Rs {Amount} per person</div>
   </div>
 <div class="mb-3">
   <label for="title">Title</label>
@@ -96,15 +96,31 @@ require_once 'config.php';
   <input name="location" id="Location" class="form-control" type="text" placeholder="Enter location of event" aria-label="default input example" required >
   </div>
   <div class="mb-3">
-  <label for="Contact">Contact of organiser</label>
-  <input id="Contact" name="Contact" class="form-control" type="text" placeholder="Add any one contact person " aria-label="default input example" required >
+  <label for="org_name">Name</label>
+  <input id="org_name" name="org_name" class="form-control" type="text" placeholder="Name of oragniser " aria-label="default input example" required >
+  </div>
+  <div class="mb-3">
+  <label for="Contact">Phone Number</label>
+  <input id="Contact" name="Contact" class="form-control" type="text" placeholder="Phone number of organiser " aria-label="default input example" required >
+  </div>
+  <div class="mb-3">
+  <label for="start_time">Event starting time</label>
+  <input id="start_time" name="start_time" class="form-control" step="1" type="time" placeholder="Phone number of organiser " aria-label="default input example" required >
+  </div>
+  <div class="mb-3">
+  <label for="end_time">Event Ending time</label>
+  <input id="end_time" name="end_time" class="form-control" step="1" type="time" placeholder="Phone number of organiser " aria-label="default input example" required >
+  </div>
+  <div class="mb-3">
+  <label for="Day">Day</label>
+  <input id="Day" name="Day" class="form-control" type="text" placeholder="like Monday, Tuesday  " aria-label="default input example" required >
   </div>
   <div class="mb-3">
   <label for="Tag">Tag</label>
   <input id="Tag" name="Tag" class="form-control" type="text" placeholder="Tags like Seminar, UI/UX, Dance  " aria-label="default input example" required >
   </div>
 </div>
-  <div class="container">
+  <div class="container w-75">
     <h2 class="text-center fw-bolder mt-4">Event Description</h2>
     <div class="mb-3">
   <label for="formFile" class="form-label">Image</label>
@@ -131,8 +147,10 @@ $date = $_POST['date'];
 $location = $_POST['location'];
 $tag = $_POST['Tag'];
 $contact = $_POST['Contact'];
-
-
+$org_name = $_POST['org_name'];
+$s_time = $_POST['start_time'];
+$e_time = $_POST['end_time'];
+$day = $_POST['Day'];
 
 $sql_check = "SELECT * FROM event_detail WHERE title = '$title' AND description = '$description'";
 $result_check = $conn->query($sql_check);
@@ -168,15 +186,13 @@ if(isset($_FILES['image'])) {
           if($file_size <= $max_file_size) {
               if(move_uploaded_file($file_tmp, $upload_dir.$file_name)) {
                   $finalimage = $upload_dir.$file_name;
-
                   // Proceed with database insertion
-                  $sql = "INSERT INTO event_detail (status, image, title, description, date, location, Contact, Tag)
-                          VALUES ('$status', '$finalimage', '$title', '$description', '$date', '$location', '$contact', '$tag')";
-
+                  $sql = "INSERT INTO event_detail (status, image, title, description, date, Day, st_time, end_time, location, Contact, org_name , Tag)
+                          VALUES ('$status', '$finalimage', '$title', '$description', '$date' ,'$day', '$s_time', '$e_time', '$location', '$contact', '$org_name', '$tag')";
                   if ($conn->query($sql) === TRUE) {
                       echo "<script>displayMessage('Event added successfully', 'success');</script>";
                   } else {
-                      echo "<script>displayMessage('Error: " . $sql . "<br>" . $conn->error . "', 'danger');</script>";
+                      echo "<script>displayMessage('Error: Unbale to add this time', 'danger');</script>";
                   }
               } else {
                   echo "<script>displayMessage('Error uploading image', 'danger');</script>";

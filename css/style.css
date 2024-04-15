@@ -24,11 +24,11 @@ background-color: #687C94;
 }
 .module {
     width: 300px;
-    overflow:hidden; 
-    white-space:nowrap; 
+    overflow:hidden;
+    white-space:nowrap;
     text-overflow: ellipsis;
 }
 .accordion-body {
-    max-height: 200px; /* Adjust the maximum height as needed */
-    overflow-y: auto; /* Enable vertical scrolling if content exceeds the height */
+    max-height: 200px;
+    overflow-y: auto;
 }
