@@ -12,6 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['Password'])) {
             $_SESSION['email'] = $user['Email'];
+            $_SESSION['ID'] = $user['S. No'];
+            $_SESSION['user'] = $user['User_Name'];
             $_SESSION['loggedin'] = true;
             $_SESSION['admin'] = $user['admin'];
             header('Location: landing_page.php');

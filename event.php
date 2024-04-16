@@ -9,68 +9,67 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body style="background-color: #F8F8FA;">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container d-flex justify-content-evenly">
-            <a class="navbar-brand" href="index.html"> <h2 class="my3 fw-bolder">Hub<span class="theme-txt">Fiesta</span></h2></a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-              <ul class="nav nav-pill">
-              <?php
-require_once 'config.php';
-              
-          // Checking if the user is logged in
-          if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-            // If logged in, showing personalized content
-            echo ' 
-            <li class="nav-item">
-                <a class="nav-link  px-3   link-dark" aria-current="page" href="landing_page.php"> Home </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link link-dark" href="#">Blog</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link link-dark" href="eventdisp.php">All Events</a>
-            </li>
-                
-      <div class="dropdown">
-      <div class="d-flex">
-      
-        <button class="btn  dropdown-toggle" type="button" id="userDropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
-        <lord-icon
-        src="https://cdn.lordicon.com/kthelypq.json"
-        trigger="hover"
-        >
-      </lord-icon>
-        </button>
-        <ul class="dropdown-menu"  aria-labelledby="userDropdownMenu">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="logout.php">Logout</a></li>
-        </ul>
-        </div>
+  <!-- Nav Bar -->
+  <nav class="navbar mb-5 sticky-top navbar-expand-lg bg-body-tertiary">
+  <div class="container d-flex justify-content-evenly">
+      <a class="navbar-brand" href="index.html"> <h2 class="my3 fw-bolder">Hub<span class="theme-txt">Fiesta</span></h2></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <ul class="nav nav-pill">
+        <?php
+        require_once 'config.php';
+    // Checking if the user is logged in
+    if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+      // If logged in, showing personalized content
+      echo '
+      <li class="nav-item">
+          <a class="nav-link  px-3  link-dark" aria-current="page" href="landing_page.php"> Home </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link link-dark" href="blog.php">Blog</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link link-dark" href="eventdisp.php">All Events</a>
+      </li>
+          <!-- Example HTML markup for the user dropdown menu -->
+<div class="dropdown">
+<div class="d-flex">
+  <button class="btn  dropdown-toggle" type="button" id="userDropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
+  <lord-icon
+  src="https://cdn.lordicon.com/kthelypq.json"
+  trigger="hover"
+  >
+</lord-icon>';
+echo'  </button><p class="pt-2">'.$_SESSION['user'].'</p>
+  <ul class="dropdown-menu"  aria-labelledby="userDropdownMenu">
+      <li><a class="dropdown-item" href="#">Profile</a></li>
+      <li><a class="dropdown-item" href="#">Settings</a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+  </ul>
+  </div>
+</div>
+      '
+      ;
+  } else {
+      // If not logged in, showing generic content
+      echo '
+      <div class="navbar-nav">
+          <a class="nav-link active" aria-current="page" href="log-in.html">Login</a>
+          <a class="nav-link" href="sign-in.html">Signup</a>
+      </div> 
+      '
+      ;
+  }
+    ?>
+    </ul>
       </div>
-            '
-            ;
-        } else {
-            // If not logged in, showing generic content
-            echo '
-            <div class="navbar-nav">
-                <a class="nav-link active" aria-current="page" href="log-in.html">Login</a>
-                <a class="nav-link" href="sign-in.html">Signup</a>
-            </div> 
-            '
-            ;
-        }
-          ?>
-          </ul>
-            </div>
-          </div>
-        </div>
-      </nav>
+    </div>
+  </div>
+</nav>
       <!-- Display Message -->
 <script src="script/message.js"></script>
 <div id="messageContainer"></div>
@@ -78,46 +77,53 @@ require_once 'config.php';
 <form onsubmit="return validateForm();" action="event.php" method="post" enctype="multipart/form-data" >
 <div class="container w-75  ">
   <h2 class="text-center fw-bold my-4">Create Event</h2>
-  <div class="mb-3">
-  <label for="status1">Status</label>
-  <input name="status" id="status1" class="form-control" type="text"  aria-label="default input example" aria-describedby="statusHelp" required>
-  <div id="statusHelp" class="form-text">Example: Free or Rs {Amount} per person</div>
+  <div class="row mb-3">
+    <div class="col">
+      <label for="status1">Status</label>
+      <input name="status" id="status1" class="form-control" type="text"  aria-label="default input example" aria-describedby="statusHelp" required>
+      <div id="statusHelp" class="form-text">Example: Free or Rs {Amount} per person</div>
+    </div>
+    <div class="col">
+      <label for="title">Title</label>
+      <input id="title" name="title" class="form-control" type="text" placeholder="Enter the Title " aria-label="default input example" required >
+    </div>
   </div>
-<div class="mb-3">
-  <label for="title">Title</label>
-  <input id="title" name="title" class="form-control" type="text" placeholder="Enter the Title " aria-label="default input example" required >
-  </div>
-  <div class="mb-3">
-  <label for="date">Date</label>
-  <input id="date" name="date" class="form-control" type="date"  aria-label="default input example" required >
-  </div>
-  <div class="mb-3">
-  <label for="Location">Location</label>
-  <input name="location" id="Location" class="form-control" type="text" placeholder="Enter location of event" aria-label="default input example" required >
-  </div>
-  <div class="mb-3">
-  <label for="org_name">Name</label>
-  <input id="org_name" name="org_name" class="form-control" type="text" placeholder="Name of oragniser " aria-label="default input example" required >
-  </div>
-  <div class="mb-3">
-  <label for="Contact">Phone Number</label>
-  <input id="Contact" name="Contact" class="form-control" type="text" placeholder="Phone number of organiser " aria-label="default input example" required >
+  <div class="row mb-3">
+    <div class="col">
+      <label for="date">Date</label>
+      <input id="date" name="date" class="form-control" type="date"  aria-label="default input example" required >
+    </div>
+    <div class="col">
+      <label for="Location">Location</label>
+      <input name="location" id="Location" class="form-control" type="text" placeholder="Enter location of event" aria-label="default input example" aria-describedby="LocHelp" required >
+      <div id="LocHelp" class="form-text">Example: Lab 1, E-block, 4th Floor</div>
+    </div>
   </div>
   <div class="mb-3">
-  <label for="start_time">Event starting time</label>
-  <input id="start_time" name="start_time" class="form-control" step="1" type="time" placeholder="Phone number of organiser " aria-label="default input example" required >
+    <label for="org_name">Name</label>
+    <input id="org_name" name="org_name" class="form-control" type="text" placeholder="Name of oragniser " aria-label="default input example" required >
   </div>
   <div class="mb-3">
-  <label for="end_time">Event Ending time</label>
-  <input id="end_time" name="end_time" class="form-control" step="1" type="time" placeholder="Phone number of organiser " aria-label="default input example" required >
+    <label for="Contact">Phone Number</label>
+    <input id="Contact" name="Contact" class="form-control" type="text" placeholder="Phone number of organiser " aria-label="default input example" required >
+  </div>
+  <div class="row mb-3">
+    <div class="col">
+      <label for="start_time">Event start</label>
+      <input id="start_time" name="start_time" class="form-control" step="1" type="time" placeholder="Phone number of organiser " aria-label="default input example" required >
+    </div>
+    <div class="col">
+      <label for="end_time">Event End</label>
+      <input id="end_time" name="end_time" class="form-control" step="1" type="time" placeholder="Phone number of organiser " aria-label="default input example" required >
+    </div>
   </div>
   <div class="mb-3">
-  <label for="Day">Day</label>
-  <input id="Day" name="Day" class="form-control" type="text" placeholder="like Monday, Tuesday  " aria-label="default input example" required >
+    <label for="Day">Day</label>
+    <input id="Day" name="Day" class="form-control" type="text" placeholder="like Monday" aria-label="default input example" required >
   </div>
   <div class="mb-3">
-  <label for="Tag">Tag</label>
-  <input id="Tag" name="Tag" class="form-control" type="text" placeholder="Tags like Seminar, UI/UX, Dance  " aria-label="default input example" required >
+    <label for="Tag">Tag</label>
+    <input id="Tag" name="Tag" class="form-control" type="text" placeholder=" Seminar, UI/UX, Dance  " aria-label="default input example" required >
   </div>
 </div>
   <div class="container w-75">

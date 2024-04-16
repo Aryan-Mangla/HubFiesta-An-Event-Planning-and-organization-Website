@@ -23,7 +23,7 @@
     // Checking if the user is logged in
     if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
       // If logged in, showing personalized content
-      echo ' 
+      echo '
       <li class="nav-item">
           <a class="nav-link active rounded-pill px-3  theme-bg theme-hover link-light" aria-current="page" href="#"> Home </a>
       </li>
@@ -36,14 +36,13 @@
           <!-- Example HTML markup for the user dropdown menu -->
 <div class="dropdown">
 <div class="d-flex">
-
   <button class="btn  dropdown-toggle" type="button" id="userDropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
   <lord-icon
   src="https://cdn.lordicon.com/kthelypq.json"
   trigger="hover"
   >
-</lord-icon>
-  </button>
+</lord-icon>';
+echo'  </button><p class="pt-2">'.$_SESSION['user'].'</p>
   <ul class="dropdown-menu"  aria-labelledby="userDropdownMenu">
       <li><a class="dropdown-item" href="#">Profile</a></li>
       <li><a class="dropdown-item" href="#">Settings</a></li>
@@ -135,7 +134,7 @@
 <!-- Dynamically Creates Event -->
     <?php
 // Fetch latest 6 event details from the database
-$sql = "SELECT * FROM (SELECT * FROM event_detail ORDER BY `Event ID` DESC LIMIT 6) AS LastSix ORDER BY `Event ID` ASC;"; // Assuming 'date' is a column representing the event date
+$sql = "SELECT * FROM (SELECT * FROM event_detail ORDER BY `Event ID` DESC LIMIT 6) AS LastSix ORDER BY `Event ID` ASC;";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   $counter = 0;

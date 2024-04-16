@@ -1,16 +1,13 @@
 <?php
 require_once 'config.php';
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle form submission
     $event_id = $_POST['event_id'];
     $title = $_POST['title'];
     $content = $_POST['content'];
-
     // Check if the title and content already exist
     $check_sql = "SELECT * FROM event_faq WHERE event_id = '$event_id' AND title = '$title' AND content = '$content'";
     $check_result = $conn->query($check_sql);
-
     if ($check_result->num_rows > 0) {
         // If a record with the same title and content exists, display a message
         echo "Accordion item with the same title and content already exists!";
@@ -25,10 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,7 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 <div class="container-fluid">
 <a href="test.php?id=<?php echo $_GET['id']; ?>"  class="btn theme-bg theme-hover text-white my-5"> Back</a>
@@ -56,7 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn theme-bg theme-hover text-white">Submit</button>
         </form>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>
@@ -64,6 +57,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
-
 </body>
 </html>
