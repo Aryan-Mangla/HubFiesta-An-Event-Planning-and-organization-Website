@@ -10,7 +10,20 @@
         }
         return true;
     }
-
+    function validateImageFileType(fileInput) {
+        // Get the file name
+        var fileName = fileInput.value;
+        
+        // Check if the file name has a valid extension
+        if (/\.(png|jpg|jpeg)$/i.test(fileName)) {
+            return true; // Valid file type
+        } else {
+            alert("Please upload a valid PNG, JPG, or JPEG image file.");
+            fileInput.value = ''; // Clear the file input field
+            return false; // Invalid file type
+        }
+    }
+    
     document.addEventListener("DOMContentLoaded", function() {
         countWords(); // Call countWords once when the page is loaded
     });

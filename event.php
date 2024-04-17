@@ -37,7 +37,7 @@
           <!-- Example HTML markup for the user dropdown menu -->
 <div class="dropdown">
 <div class="d-flex">
-  <button class="btn  dropdown-toggle" type="button" id="userDropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
+  <button class="btn  dropdown-bs-toggle" type="button" id="userDropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
   <lord-icon
   src="https://cdn.lordicon.com/kthelypq.json"
   trigger="hover"
@@ -74,7 +74,7 @@ echo'  </button><p class="pt-2">'.$_SESSION['user'].'</p>
 <script src="script/message.js"></script>
 <div id="messageContainer"></div>
 <!-- Form to submit info -->
-<form onsubmit="return validateForm();" action="event.php" method="post" enctype="multipart/form-data" >
+<form onsubmit="return validateForm() && validateImageFileType(this.image);" action="event.php" method="post" enctype="multipart/form-data" >
 <div class="container w-75  ">
   <h2 class="text-center fw-bold my-4">Create Event</h2>
   <div class="row mb-3">
@@ -130,7 +130,7 @@ echo'  </button><p class="pt-2">'.$_SESSION['user'].'</p>
     <h2 class="text-center fw-bolder mt-4">Event Description</h2>
     <div class="mb-3">
   <label for="formFile" class="form-label">Image</label>
-  <input name="image" class="form-control" type="file" id="formFile" accept="image/*" required>
+  <input name="image" class="form-control" type="file" id="formFile" accept=".png, .jpg, .jpeg" required>
 </div>
 <div class="form-floating ">
   <textarea oninput="countWords()" name="description" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" aria-describedby="textareaHelp" required></textarea>
@@ -176,38 +176,46 @@ function validateImageDimensions($file_tmp) {
     }
     return true;
 }
+function convertPNGtoJPEG($sourceImagePath, $targetImagePath) {
+  // Load the PNG image
+  $sourceImage = imagecreatefrompng($sourceImagePath);
+  $newImage = imagecreatetruecolor(imagesx($sourceImage), imagesy($sourceImage));
+ $white = imagecolorallocate($newImage, 255, 255, 255);
+  imagefill($newImage, 0, 0, $white);
+  imagecopy($newImage, $sourceImage, 0, 0, 0, 0, imagesx($sourceImage), imagesy($sourceImage));
+  imagejpeg($newImage, $targetImagePath, 100); // Save JPEG image with 100% quality
+  imagedestroy($sourceImage);
+  imagedestroy($newImage);
+}
 
 if(isset($_FILES['image'])) {
   $file_name = $_FILES['image']['name'];
   $file_tmp = $_FILES['image']['tmp_name'];
   $file_size = $_FILES['image']['size'];
-
   $upload_dir = "Pic/uploaded/";
-  $max_file_size = 200 * 1024; // 200 KB in bytes is the maximum Size 
+  $max_file_size = 200 * 1024;
 
   if(!empty($file_name) && is_uploaded_file($file_tmp)) {
       // Check the image dimensions
       if(validateImageDimensions($file_tmp)) {
           // Check the image file size
           if($file_size <= $max_file_size) {
-              if(move_uploaded_file($file_tmp, $upload_dir.$file_name)) {
-                  $finalimage = $upload_dir.$file_name;
-                  // Proceed with database insertion
-                  $sql = "INSERT INTO event_detail (status, image, title, description, date, Day, st_time, end_time, location, Contact, org_name , Tag)
-                          VALUES ('$status', '$finalimage', '$title', '$description', '$date' ,'$day', '$s_time', '$e_time', '$location', '$contact', '$org_name', '$tag')";
-                  if ($conn->query($sql) === TRUE) {
-                      echo "<script>displayMessage('Event added successfully', 'success');</script>";
-                  } else {
-                      echo "<script>displayMessage('Error: Unbale to add this time', 'danger');</script>";
-                  }
+              // Convert PNG image to JPEG format and save to the upload directory
+              $targetImagePath = $upload_dir . basename($file_name, '.png') . '.jpeg';
+              convertPNGtoJPEG($file_tmp, $targetImagePath);
+              // Proceed with database insertion using the JPEG file path
+              $sql = "INSERT INTO event_detail (status, image, title, description, date, Day, st_time, end_time, location, Contact, org_name, Tag)
+                      VALUES ('$status', '$targetImagePath', '$title', '$description', '$date' ,'$day', '$s_time', '$e_time', '$location', '$contact', '$org_name', '$tag')";
+              if ($conn->query($sql) === TRUE) {
+                  echo "<script>displayMessage('Event added successfully', 'success');</script>";
               } else {
-                  echo "<script>displayMessage('Error uploading image', 'danger');</script>";
+                  echo "<script>displayMessage('Error: Unable to add this event', 'danger');</script>";
               }
           } else {
               echo "<script>displayMessage('Error: The file size exceeds the maximum allowed size (200 KB)', 'danger');</script>";
           }
       } else {
-          echo "<script>displayMessage('Error: Image dimensions exceed the maximum allowed values (800x600)', 'danger');</script>";
+          echo "<script>displayMessage('Error: Image dimensions exceed the maximum allowed values (348x240)', 'danger');</script>";
       }
   } else {
       echo "<script>displayMessage('Error: Invalid file or no file uploaded', 'danger');</script>";

@@ -36,7 +36,7 @@
           <!-- Example HTML markup for the user dropdown menu -->
 <div class="dropdown">
 <div class="d-flex">
-  <button class="btn  dropdown-toggle" type="button" id="userDropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
+  <button class="btn  dropdown-bs-toggle" type="button" id="userDropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
   <lord-icon
   src="https://cdn.lordicon.com/kthelypq.json"
   trigger="hover"
