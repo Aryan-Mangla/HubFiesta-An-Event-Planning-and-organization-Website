@@ -196,13 +196,20 @@ if(isset($_FILES['image'])) {
   $max_file_size = 200 * 1024;
 
   if(!empty($file_name) && is_uploaded_file($file_tmp)) {
+    $extension = strtolower(pathinfo($targetImagePath, PATHINFO_EXTENSION));
       // Check the image dimensions
       if(validateImageDimensions($file_tmp)) {
           // Check the image file size
           if($file_size <= $max_file_size) {
+            if ($extension === 'png') {
               // Convert PNG image to JPEG format and save to the upload directory
               $targetImagePath = $upload_dir . basename($file_name, '.png') . '.jpeg';
               convertPNGtoJPEG($file_tmp, $targetImagePath);
+          } else {
+              // For other image formats, save the image directly to the upload directory
+              $targetImagePath = $upload_dir . basename($file_name);
+              move_uploaded_file($file_tmp, $targetImagePath);
+          }
               // Proceed with database insertion using the JPEG file path
               $sql = "INSERT INTO event_detail (status, image, title, description, date, Day, st_time, end_time, location, Contact, org_name, Tag)
                       VALUES ('$status', '$targetImagePath', '$title', '$description', '$date' ,'$day', '$s_time', '$e_time', '$location', '$contact', '$org_name', '$tag')";

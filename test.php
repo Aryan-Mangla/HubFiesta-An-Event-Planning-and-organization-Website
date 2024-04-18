@@ -118,7 +118,7 @@ if (isset($_GET['id'])) {
       <h1>' . $event['title'] . '</h1>
       <div>
         <h3 class="mt-5 fs-1"> Description </h3>
-        <p style="text-align: justify;">' . $event['description'] . '</p>
+        <p style="text-align: justify;">' . nl2br($event['description']) . '</p>
       </div>
       <div>
         <h3 class="fw-bold fs-4">Date and Time: </h3>

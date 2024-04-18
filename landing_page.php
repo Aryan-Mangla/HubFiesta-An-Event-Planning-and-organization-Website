@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body >
+<body>
   <!-- Nav Bar -->
 <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
   <div class="container d-flex justify-content-evenly">
@@ -137,42 +137,42 @@ echo'  </button><p class="pt-2">'.$_SESSION['user'].'</p>
 $sql = "SELECT * FROM (SELECT * FROM event_detail ORDER BY `Event ID` DESC LIMIT 6) AS LastSix ORDER BY `Event ID` ASC;";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
-  $counter = 0;
-  // Start a new row
-  echo '<div class="row">';
+  // Start the row-cols container
+  echo '<div class="row row-cols-1 row-cols-md-3 g-4">';
   // Loop through each row of the result set
   while($row = $result->fetch_assoc()) {
       $row['date'] = date('d-F-Y', strtotime($row['date']));
       $row['st_time'] = date("H:i", strtotime($row['st_time']));
-      echo '<div class="col-md-4">';
-      echo '<div class="card my-4 d-flex justify-content-center align-items-center" style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);">';
-      echo '<div style="width: 85%;">';
+      // Start a column
+      echo '<div class="col">';
+      // Start a card
+      echo '<div class="card my-3 d-flex justify-content-center align-items-center" style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);">';
+      echo '<div class="text-center" style="width: 85%;">';
       echo '<span class="badge text-bg-light position-absolute" style="z-index: 1; top: 6%; left: 10%;">' . $row['status'] . '</span>';
-      echo '<img src="' . $row['image'] . '" class="card-img-top mt-3 position-relative" style="max-width: 348px; max-height: 240px;" alt="...">';
+      echo '<img src="' . $row['image'] . '" class="card-img-top mt-3 mx-auto position-relative" style="max-width: 348px; max-height: 240px;" alt="...">';
       echo '</div>';
+      // Card body
       echo '<div class="card-body">';
+      // Title
       echo '<h5 class="card-title">' . $row['title'] . '</h5>';
       echo '<p class="card-text d-inline-block module"  >' . $row['description'] . '</p>';
       echo '<p class="card-text theme-txt">' . $row['date'] . ', <span>'.$row['st_time'] .'</span</p>';
-      echo '<p class="card-text text-secondary">' . $row['location'] . '</p>';
+      echo '<p class="card-text text-secondary module">' . $row['location'] . '</p>';
       echo '<p class="card-text text-secondary">Event ID: ' . $row['Event ID'] . '</p>';
-      echo '<a href="test.php?id=' . $row['Event ID'] . '" class="btn theme-bg theme-hover text-white">Read More</a>';
-      // Conditionally display the delete anchor if the user is an admin
+      echo '<a href="test.php?id=' . $row['Event ID'] . '" class="btn theme-bg theme-hover text-white">Read More</a>';      // Delete icon (assuming the user is an admin)
       if (isset($_SESSION['admin']) && $_SESSION['admin'] === '1') {
-          echo '<a href="delete_event.php?id=' . $row['Event ID'] . '" class="delete-icon float-end" title="Delete event">';
-          echo '<lord-icon src="https://cdn.lordicon.com/wpyrrmcq.json" trigger="hover" style="width:30px;height:30px"></lord-icon>';
-          echo '</a>';
-      }
+        echo '<a href="delete_event.php?id=' . $row['Event ID'] . '" class="delete-icon float-end" title="Delete event">';
+        echo '<lord-icon src="https://cdn.lordicon.com/wpyrrmcq.json" trigger="hover" style="width:30px;height:30px"></lord-icon>';
+        echo '</a>';
+    }
+      // End card body
       echo '</div>';
+      // End card
       echo '</div>';
+      // End column
       echo '</div>';
-      $counter++;
-      if ($counter % 3 == 0) {
-          echo '</div>'; // Close current row
-          echo '<div class="row">'; // Start new row
-      }
   }
-  // Close the final row
+  // End the row-cols container
   echo '</div>';
 } else {
   echo "No events found.";

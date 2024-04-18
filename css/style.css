@@ -14,16 +14,16 @@
     background-size: cover;
 }
 .sign-up-bg{
-    background-image: url('/Pic/Signup/sign-up.png');
+    background-image: url('../Pic/Signup/sign-up.png');
 }
 .sign-in-bg{
-    background-image: url('/Pic/Signup/unsplash_EVgsAbL51Rk.png');
+    background-image: url('../Pic/Signup/unsplash_EVgsAbL51Rk.png');
 }
 .dropdown-bg{
 background-color: #d3d5d741;
 }
 .module {
-    width: 300px;
+    width: 350px;
     overflow:hidden;
     white-space:nowrap;
     text-overflow: ellipsis;
@@ -32,3 +32,4 @@ background-color: #d3d5d741;
     max-height: 200px;
     overflow-y: auto;
 }
+
