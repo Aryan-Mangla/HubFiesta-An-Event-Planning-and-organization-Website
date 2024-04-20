@@ -11,7 +11,7 @@
   <!-- Nav Bar -->
 <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
   <div class="container d-flex justify-content-evenly">
-      <a class="navbar-brand" href="index.html"> <h2 class="my3 fw-bolder">Hub<span class="theme-txt">Fiesta</span></h2></a>
+      <a class="navbar-brand" href="landing_page.php"> <h2 class="my3 fw-bolder">Hub<span class="theme-txt">Fiesta</span></h2></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -45,7 +45,10 @@
 echo'  </button><p class="pt-2">'.$_SESSION['user'].'</p>
   <ul class="dropdown-menu"  aria-labelledby="userDropdownMenu">
       <li><a class="dropdown-item" href="#">Profile</a></li>
+      <li><a class="dropdown-item" href="#">Messages</a></li>
+      <li><a class="dropdown-item" href="#">My Events</a></li>
       <li><a class="dropdown-item" href="#">Settings</a></li>
+
       <li><hr class="dropdown-divider"></li>
       <li><a class="dropdown-item" href="logout.php">Logout</a></li>
   </ul>
@@ -198,14 +201,13 @@ $conn->close();
 ?>
 <!-- end -->
 </div>
-<!-- Registration -->
+<!--Event Registration -->
 <div class="container-fluid d-flex justify-content-evenly align-items-center" style="background-color: #10107B;margin-top:10rem">
 <div class="col-md-6">
   <img src="Pic/index/Create event/image 3.png" class="img-fluid position-relative" style="top: -50px;" alt="">
 </div>
-<div class="col-md-6 text-light">
+<div class="col-md-6 p-3 text-light">
   <h3>Make your own Event </h3>
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
 <?php  // if admin then special option
 if (isset($_SESSION['admin']) && $_SESSION['admin'] === '1') {
 echo'<a href="event.php" class="btn theme-bg theme-hover text-white">Create Events</a>';}

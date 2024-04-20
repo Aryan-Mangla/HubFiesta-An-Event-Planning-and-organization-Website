@@ -194,6 +194,7 @@ if(isset($_FILES['image'])) {
   $file_size = $_FILES['image']['size'];
   $upload_dir = "Pic/uploaded/";
   $max_file_size = 200 * 1024;
+  $targetImagePath = $upload_dir . basename($file_name);
 
   if(!empty($file_name) && is_uploaded_file($file_tmp)) {
     $extension = strtolower(pathinfo($targetImagePath, PATHINFO_EXTENSION));
