@@ -146,7 +146,7 @@ if ($result->num_rows > 0) {
       // Start a column
       echo '<div class="col">';
       // Start a card
-      echo '<div class="card my-3 d-flex justify-content-center align-items-center" style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);">';
+      echo '<div class="card h-100 my-3 d-flex justify-content-center align-items-center" style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);">';
       echo '<div class="text-center" style="width: 85%;">';
       echo '<span class="badge text-bg-light position-absolute" style="z-index: 1; top: 6%; left: 10%;">' . $row['status'] . '</span>';
       echo '<img src="' . $row['image'] . '" class="card-img-top mt-3 mx-auto position-relative" style="max-width: 348px; max-height: 240px;" alt="...">';
@@ -159,7 +159,7 @@ if ($result->num_rows > 0) {
       echo '<p class="card-text theme-txt">' . $row['date'] . ', <span>'.$row['st_time'] .'</span</p>';
       echo '<p class="card-text text-secondary module">' . $row['location'] . '</p>';
       echo '<p class="card-text text-secondary">Event ID: ' . $row['Event ID'] . '</p>';
-      echo '<a href="test.php?id=' . $row['Event ID'] . '" class="btn theme-bg theme-hover text-white">Read More</a>';      // Delete icon (assuming the user is an admin)
+      echo '<a href="test.php?id=' . $row['Event ID'] . '" class="btn theme-bg theme-hover text-white mt-1">Read More</a>';      // Delete icon (assuming the user is an admin)
       if (isset($_SESSION['admin']) && $_SESSION['admin'] === '1') {
         echo '<a href="delete_event.php?id=' . $row['Event ID'] . '" class="delete-icon float-end" title="Delete event">';
         echo '<lord-icon src="https://cdn.lordicon.com/wpyrrmcq.json" trigger="hover" style="width:30px;height:30px"></lord-icon>';
@@ -199,7 +199,7 @@ $conn->close();
 <!-- end -->
 </div>
 <!-- Registration -->
-<div class="container-fluid mt-5 d-flex justify-content-evenly align-items-center" style="background-color: #10107B;">
+<div class="container-fluid d-flex justify-content-evenly align-items-center" style="background-color: #10107B;margin-top:10rem">
 <div class="col-md-6">
   <img src="Pic/index/Create event/image 3.png" class="img-fluid position-relative" style="top: -50px;" alt="">
 </div>
@@ -217,7 +217,7 @@ else{
 </div>
 <!-- Clubs -->
 <h4 class="mt-5 fw-bolder text-center">Our<span class="theme-txt">Clubs</span></h4>
-<p class="text-center fw-bolder">We've had the pleasure of working with these clubs of Panipat Institute of Engineering and Technology. These are just some of them.</p>
+<p class="text-center fw-bolder">We've had the pleasure of working with these clubs of Panipat Institute of Engineering and Technology.</p>
 <div class="row">
   <div class="col-md-3">
     <img src="Pic/index/Clubs/stripe.png" alt="">
@@ -229,7 +229,6 @@ else{
   <div class="col-md-3"></div>
 </div>
 <!-- Our Blog -->
-
 <div class="container my-5">
 <div class="d-flex justify-content-between">
   <h4 class="my3 fw-bolder">Our<span class="theme-txt">Blogs</span></h4>
