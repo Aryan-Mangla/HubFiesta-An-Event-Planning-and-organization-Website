@@ -33,3 +33,34 @@ background-color: #d3d5d741;
     overflow-y: auto;
 }
 
+.signal-btn {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%; 
+    border: 1px solid;
+}
+
+@keyframes blink-animation {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Apply animation to the status button */
+
+.active_signal{
+background-color: green;
+border-color: green;
+color: white;
+}
+.expired_signal{
+    background-color: red;
+    border-color: red;
+    color: white;
+}

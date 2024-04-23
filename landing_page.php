@@ -132,7 +132,6 @@ echo'  </button><p class="pt-2">'.$_SESSION['user'].'</p>
   </div>
   </div> <!--Event navbar end-->
 <!-- Display Message -->
-<script src="script/message.js"></script>
 <div id="messageContainer"></div>
 <!-- Dynamically Creates Event -->
     <?php
@@ -144,14 +143,15 @@ if ($result->num_rows > 0) {
   echo '<div class="row row-cols-1 row-cols-md-3 g-4">';
   // Loop through each row of the result set
   while($row = $result->fetch_assoc()) {
+    $event_signal =$row['event_signal'];
       $row['date'] = date('d-F-Y', strtotime($row['date']));
       $row['st_time'] = date("H:i", strtotime($row['st_time']));
       // Start a column
       echo '<div class="col">';
       // Start a card
-      echo '<div class="card h-100 my-3 d-flex justify-content-center align-items-center" style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);">';
+      echo '<div class="card h-100  my-3 d-flex justify-content-center align-items-center" style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);">';
       echo '<div class="text-center" style="width: 85%;">';
-      echo '<span class="badge text-bg-light position-absolute" style="z-index: 1; top: 6%; left: 10%;">' . $row['status'] . '</span>';
+      echo '<span class="badge  position-absolute '; if($row['event_signal']==='Active'){echo'active_signal';}else{echo'expired_signal';}echo'" style="z-index: 1; top: 6%; left: 10%;">' . $row['status'] . '</span>';
       echo '<img src="' . $row['image'] . '" class="card-img-top mt-3 mx-auto position-relative" style="max-width: 348px; max-height: 240px;" alt="...">';
       echo '</div>';
       // Card body
@@ -163,11 +163,23 @@ if ($result->num_rows > 0) {
       echo '<p class="card-text text-secondary module">' . $row['location'] . '</p>';
       echo '<p class="card-text text-secondary">Event ID: ' . $row['Event ID'] . '</p>';
       echo '<a href="test.php?id=' . $row['Event ID'] . '" class="btn theme-bg theme-hover text-white mt-1">Read More</a>';      // Delete icon (assuming the user is an admin)
-      if (isset($_SESSION['admin']) && $_SESSION['admin'] === '1') {
+     if (isset($_SESSION['admin']) && $_SESSION['admin'] === '1') {
         echo '<a href="delete_event.php?id=' . $row['Event ID'] . '" class="delete-icon float-end" title="Delete event">';
         echo '<lord-icon src="https://cdn.lordicon.com/wpyrrmcq.json" trigger="hover" style="width:30px;height:30px"></lord-icon>';
         echo '</a>';
+           echo '<form method="post" action="event_status.php">';
+         echo '    <div class="mt-3 d-flex">';
+         echo '        <select class="form-select me-1 w-50" id="eventStatus" name="eventStatus">';
+         echo '            <option value="Active" ' . (($event_signal == 'Active') ? 'selected' : '') . '>Active</option>';
+         echo '            <option value="Expired" ' . (($event_signal == 'Expired') ? 'selected' : '') . '>Expired</option>';
+         echo '        </select>';
+         echo '        <input type="hidden" name="eventId" value="' . $row['Event ID'] . '">';
+         echo '        <button type="submit" class="btn btn-secondary" id="updateStatusBtn">Update Status</button>';
+         echo '    </div>';
+         echo '</form>';
     }
+
+    
       // End card body
       echo '</div>';
       // End card
@@ -322,6 +334,7 @@ else{
 <script src="https://cdn.lordicon.com/lordicon.js"></script>
 
 <script src="script/script.js"></script>
+
 
 </body>
 </html>
