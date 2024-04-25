@@ -1,6 +1,5 @@
 <?php
 require_once 'config.php';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve input
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
@@ -18,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['admin'] = $user['admin'];
             header('Location: landing_page.php');
             exit();
-        
         } else {
             echo 'Incorrect password';
             // Incorrect password
