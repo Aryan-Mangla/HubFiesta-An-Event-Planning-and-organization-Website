@@ -23,7 +23,7 @@ if(isset($_GET['id'])) {
   if ($faq_result->num_rows == 0 || $conn->query("DELETE FROM event_faq WHERE event_id = '$event_id'") === TRUE) {
     $sql = "DELETE FROM event_detail WHERE `Event ID` = '$event_id'";
     if ($conn->query($sql) === TRUE) {
-      header('Location: landing_page.php');
+      header('Location: index.php');
       exit();
     } else {
       echo "<script>displayMessage('Unable to delete event: Please try again later.', 'danger');</script>";

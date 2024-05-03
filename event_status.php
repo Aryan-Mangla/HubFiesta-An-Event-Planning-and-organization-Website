@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eventId']) && isset($
     $sql = "UPDATE event_detail SET event_signal = '$eventStatus' WHERE `Event ID` = '$eventId'";
     
     if ($conn->query($sql) === TRUE) {
-        header("Location: landing_page.php");
+        header("Location: index.php");
     } else {
         echo 'error';
     }

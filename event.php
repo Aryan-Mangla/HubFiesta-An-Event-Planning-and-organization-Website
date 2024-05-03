@@ -26,7 +26,7 @@
       // If logged in, showing personalized content
       echo '
       <li class="nav-item">
-          <a class="nav-link  px-3  link-dark" aria-current="page" href="landing_page.php"> Home </a>
+          <a class="nav-link  px-3  link-dark" aria-current="page" href="index.php"> Home </a>
       </li>
       <li class="nav-item">
           <a class="nav-link link-dark" href="blog.php">Blog</a>

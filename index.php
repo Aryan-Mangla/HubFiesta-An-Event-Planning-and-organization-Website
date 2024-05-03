@@ -11,7 +11,7 @@
   <!-- Nav Bar -->
 <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
   <div class="container d-flex justify-content-evenly">
-      <a class="navbar-brand" href="landing_page.php"> <h2 class="my3 fw-bolder">Hub<span class="theme-txt">Fiesta</span></h2></a>
+      <a class="navbar-brand" href="index.php"> <h2 class="my3 fw-bolder">Hub<span class="theme-txt">Fiesta</span></h2></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

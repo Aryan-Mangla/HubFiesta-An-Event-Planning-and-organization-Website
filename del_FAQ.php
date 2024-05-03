@@ -7,7 +7,7 @@ $event_id = $conn->real_escape_string($_GET['id']);
 $sql = "DELETE FROM event_faq WHERE `id` = '$event_id'";
   // Execute the SQL statement
 if ($conn->query($sql) === TRUE) {
-header('Location: landing_page.php');
+header('Location: index.php');
 exit();
 } else {
     echo "<script>displayMessage('Unable to delete event: Either try contacting the owner or  aftersometime ', 'danger');</script>";

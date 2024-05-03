@@ -25,7 +25,7 @@
       // If logged in, showing personalized content
       echo '
       <li class="nav-item">
-          <a class="nav-link  px-3  link-dark" aria-current="page" href="landing_page.php"> Home </a>
+          <a class="nav-link  px-3  link-dark" aria-current="page" href="index.php"> Home </a>
       </li>
       <li class="nav-item">
           <a class="nav-link link-dark" href="blog.php">Blog</a>
@@ -83,7 +83,7 @@ if (isset($_GET['id'])) {
       echo '<div class="container-fluid">
       <div class="row">
 <!--      <div class="container">
-<a href="landing_page.php" class="btn theme-bg theme-hover text-white mb-5"> Back</a>
+<a href="index.php" class="btn theme-bg theme-hover text-white mb-5"> Back</a>
 </div> -->
         <div class="text-center">
           <img src="'.$event['image'].'" class="img-fluid mb-5" style="width:1500px;height:700px;"  alt="Event Flyer">

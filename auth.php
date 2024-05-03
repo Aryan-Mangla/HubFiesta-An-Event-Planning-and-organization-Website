@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user'] = $user['User_Name'];
             $_SESSION['loggedin'] = true;
             $_SESSION['admin'] = $user['admin'];
-            header('Location: landing_page.php');
+            header('Location: index.php');
             exit();
         } else {
             echo 'Incorrect password';
