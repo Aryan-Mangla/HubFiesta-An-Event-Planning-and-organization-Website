@@ -102,9 +102,13 @@ echo'  </button><p class="pt-2">'.$_SESSION['user'].'</p>
         Weekdays
       </button>
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
+        <li><a class="dropdown-item" href="#">Monday</a></li>
+        <li><a class="dropdown-item" href="#">Tuesday</a></li>
+        <li><a class="dropdown-item" href="#">Wednesday</a></li>
+        <li><a class="dropdown-item" href="#">Thursday</a></li>
+        <li><a class="dropdown-item" href="#">Friday</a></li>
+        <li><a class="dropdown-item" href="#">Saturday</a></li>
+        <li><a class="dropdown-item" href="#">Sunday</a></li>
       </ul>
     </div>
     <!-- Dropdown 2 -->
@@ -113,20 +117,8 @@ echo'  </button><p class="pt-2">'.$_SESSION['user'].'</p>
         Event Type
       </button>
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
-      </ul>
-    </div>
-    <!-- Dropdown 3 -->
-    <div class="btn-group">
-      <button type="button" class="btn  dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        Any Category
-      </button>
-      <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
+        <li><a class="dropdown-item" href="#">Culture</a></li>
+        <li><a class="dropdown-item" href="#">Technical</a></li>
       </ul>
     </div>
   </div>
@@ -163,20 +155,20 @@ if ($result->num_rows > 0) {
       echo '<p class="card-text text-secondary module">' . $row['location'] . '</p>';
       echo '<p class="card-text text-secondary">Event ID: ' . $row['Event ID'] . '</p>';
       echo '<a href="test.php?id=' . $row['Event ID'] . '" class="btn theme-bg theme-hover text-white mt-1">Read More</a>';      // Delete icon (assuming the user is an admin)
-     if (isset($_SESSION['admin']) && $_SESSION['admin'] === '1') {
+    if (isset($_SESSION['admin']) && $_SESSION['admin'] === '1') {
         echo '<a href="delete_event.php?id=' . $row['Event ID'] . '" class="delete-icon float-end" title="Delete event">';
         echo '<lord-icon src="https://cdn.lordicon.com/wpyrrmcq.json" trigger="hover" style="width:30px;height:30px"></lord-icon>';
         echo '</a>';
-           echo '<form method="post" action="event_status.php">';
-         echo '    <div class="mt-3 d-flex">';
-         echo '        <select class="form-select me-1 w-50" id="eventStatus" name="eventStatus">';
-         echo '            <option value="Active" ' . (($event_signal == 'Active') ? 'selected' : '') . '>Active</option>';
-         echo '            <option value="Expired" ' . (($event_signal == 'Expired') ? 'selected' : '') . '>Expired</option>';
-         echo '        </select>';
-         echo '        <input type="hidden" name="eventId" value="' . $row['Event ID'] . '">';
-         echo '        <button type="submit" class="btn btn-secondary" id="updateStatusBtn">Update Status</button>';
-         echo '    </div>';
-         echo '</form>';
+        echo '<form method="post" action="event_status.php">';
+        echo '    <div class="mt-3 d-flex">';
+        echo '        <select class="form-select me-1 w-50" id="eventStatus" name="eventStatus">';
+        echo '            <option value="Active" ' . (($event_signal == 'Active') ? 'selected' : '') . '>Active</option>';
+        echo '            <option value="Expired" ' . (($event_signal == 'Expired') ? 'selected' : '') . '>Expired</option>';
+        echo '        </select>';
+        echo '        <input type="hidden" name="eventId" value="' . $row['Event ID'] . '">';
+        echo '        <button type="submit" class="btn btn-secondary" id="updateStatusBtn">Update Status</button>';
+        echo '    </div>';
+        echo '</form>';
     }
 
     

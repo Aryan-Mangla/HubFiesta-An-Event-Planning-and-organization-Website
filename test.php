@@ -178,7 +178,6 @@ echo'  <div class="row mb-5">
 }
 
 ?>
-
 <!-- Other events -->
 <div class="container-fluid p-2" style="background-color: #F2F2F2;">
 <div class="container my-5" >
